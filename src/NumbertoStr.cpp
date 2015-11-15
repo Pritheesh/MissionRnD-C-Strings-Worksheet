@@ -18,8 +18,59 @@ NOTES: Don't create new string.
 */
 
 #include <stdio.h>
+#include <math.h>
 
+char * stringrev(char *str)
+{
+	int len = 0;
+	char *a = str;
+	while (*a++)
+		len++;
+	int i, j;
+	for (i = 0, j = len - 1; i < j; i++, j--)
+	{
+		char temp = *(str + i);
+		*(str + i) = *(str + j);
+		*(str + j) = temp;
+	}
+	return str;
+}
 
-void number_to_str(float number, char *str,int afterdecimal){
-	
+void number_to_str(float number, char *str,int afterdecimal)
+{
+	str[0] = 0;
+	int power = pow(10.0, afterdecimal);
+	int num = number * power;
+	int i = 0, j;
+
+	if (number < 0)
+		num /= -1;
+
+	while (num)
+	{
+		str[i++] = num % 10 + '0';
+		num /= 10;
+	}
+
+	if (number < 0)
+		str[i++] = '-';
+	str[i] = 0;
+
+	stringrev(str);
+
+	for (j = i - 1; j >= 0 && str[j] == 0; j--)
+		;
+	str[j + 1] = 0;
+
+	if (afterdecimal > 0)
+	{
+		int k = i;
+		for (j = 0; j <= afterdecimal; j++)
+		{
+			str[k] = str[k - 1];
+			k--;
+		}
+		str[i - j + 1] = '.';
+		str[i + 1] = 0;
+	}
 }
