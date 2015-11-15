@@ -30,6 +30,7 @@ char removeSpaces(char *str)
 	{
 		if (*(str + i) != ' ')
 			str[j++] = str[i];
+		i++;
 	}
 	str[j] = 0;
 	return '0';
